@@ -147,8 +147,8 @@ canvas { display: block; width: 100%; height: 100%; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 .sample-icon { background: #ff7669; color: #702e2c; box-shadow: 0 2px 0 #a8443c; }
-.sample-pips { display: flex; gap: 5px; margin: 5px 0 3px; }
-.sample-pips i { width: 13px; height: 9px; border: 1px solid #ffd4c7; border-radius: 4px; background: linear-gradient(180deg, #ff9a7d, #dc514d); box-shadow: 0 1px 0 #783b34; }
+.sample-pips { display: flex; gap: 3px; margin: 5px 0 3px; }
+.sample-pips i { width: 10px; height: 8px; border: 1px solid #ffd4c7; border-radius: 4px; background: linear-gradient(180deg, #ff9a7d, #dc514d); box-shadow: 0 1px 0 #783b34; }
 .sample-pips i.empty { border-color: #6d7c69; background: #45504a; box-shadow: none; }
 .sample-note { color: #c6d4be; font: 8px 'DM Mono', monospace; letter-spacing: .05em; }
 .garden-status { margin: 8px 0 0 36px; padding: 8px 0 0; border-top: 1px solid #fff1c13d; }

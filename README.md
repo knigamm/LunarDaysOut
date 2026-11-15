@@ -1,6 +1,8 @@
 # Lunar Days Out
 
-A browser-playable lunar outpost game prototype. Explore the base, collect samples, manage power and suit supplies, and respond to a historical solar-particle-event timeline.
+A browser-playable lunar outpost game for ages 7–12. Collect 10 of 12 lunar samples before the deadline while managing suit air, battery, stamina, food, shared base power, and NASA DONKI solar-particle events.
+
+**Play the live prototype:** [Lunar Days Out on Railway](https://web-production-e7c1f83c.up.railway.app/)
 
 ## Requirements
 
@@ -50,7 +52,7 @@ If you add or change the API key while the server is running, stop it with `Ctrl
 - **G** — switch the greenhouse on or off
 - **Esc** — leave the control room or shelter
 
-Collect three samples, carry them one at a time to the research lab, and complete the research before the mission deadline. The control-room computer lets you check the solar-event timeline and spend base power to reinforce the shelter. Reinforcement pauses greenhouse production while it is built.
+Collect 10 samples from 12 spread-out sites, carry them one at a time to the research lab, and complete the research before the mission deadline. The control-room computer lets you check the solar-event timeline and spend base power to reinforce the shelter. Reinforcement pauses greenhouse production while it is built.
 
 ## NASA data and the simulation
 

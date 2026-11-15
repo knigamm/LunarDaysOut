@@ -7,13 +7,20 @@ const worldSize = 2400;
 const camera = { x: 0, y: 0 };
 const astronaut = { x: 1200, y: 1200, facingLeft: false, moving: false, suited: false };
 const controlRoomDoor = { x: 1370, y: 1200 };
-const requiredSamples = 3;
+const requiredSamples = 10;
 const sampleSites = [
-  { id: 'sample-site-0', x: 650, y: 1760, collected: false },
-  { id: 'sample-site-1', x: 2180, y: 1650, collected: false },
-  { id: 'sample-site-2', x: 570, y: 650, collected: false },
-  { id: 'sample-site-3', x: 2010, y: 560, collected: false },
-  { id: 'sample-site-4', x: 1260, y: 2140, collected: false }
+  { id: 'sample-site-0', x: 1830, y: 1260, collected: false },
+  { id: 'sample-site-1', x: 1780, y: 1590, collected: false },
+  { id: 'sample-site-2', x: 1500, y: 1780, collected: false },
+  { id: 'sample-site-3', x: 1200, y: 1870, collected: false },
+  { id: 'sample-site-4', x: 870, y: 1780, collected: false },
+  { id: 'sample-site-5', x: 600, y: 1550, collected: false },
+  { id: 'sample-site-6', x: 480, y: 1210, collected: false },
+  { id: 'sample-site-7', x: 600, y: 880, collected: false },
+  { id: 'sample-site-8', x: 900, y: 650, collected: false },
+  { id: 'sample-site-9', x: 1220, y: 520, collected: false },
+  { id: 'sample-site-10', x: 1540, y: 650, collected: false },
+  { id: 'sample-site-11', x: 1980, y: 900, collected: false }
 ];
 const baseBuildings = [
   { id: 'control', label: 'CONTROL', x: 1370, y: 1200, width: 250, height: 195, groundAnchor: .56, labelAnchor: .58, asset: '/assets/control-room.svg' },
@@ -694,7 +701,7 @@ function endMission(resource) {
     restart.textContent = 'PLAY AGAIN';
   } else if (resource === 'deadline') {
     title.textContent = "TIME'S UP";
-    message.textContent = 'Return 3 samples to the lab and finish the research.';
+    message.textContent = `Return ${requiredSamples} samples to the lab and finish the research.`;
     restart.textContent = 'TRY AGAIN';
   } else {
     title.textContent = 'MISSION OVER';
@@ -727,7 +734,7 @@ function toggleGreenhouse(remote = false) {
 function beginSampleScan(siteIndex) {
   if (!astronaut.suited) return setResourceNotice('SUIT UP FIRST');
   if (supplies.carriedSample) return setResourceNotice('CARRY ONE SAMPLE AT A TIME');
-  if (supplies.samplesScanned >= requiredSamples) return setResourceNotice('3 SAMPLES IS ENOUGH');
+  if (supplies.samplesScanned >= requiredSamples) return setResourceNotice('ENOUGH SAMPLES');
   if (supplies.suitEnergy < 8) return setResourceNotice('LOW BATTERY · GO BACK');
   supplies.suitEnergy -= 8;
   supplies.activity = { type: 'scan', siteIndex, startAt: missionTime, duration: gameHour / 2 };
@@ -740,7 +747,7 @@ function interactWithLab() {
     supplies.carriedSample = false;
     supplies.samplesAtLab += 1;
     supplies.feedback = { text: '+1', target: 'lab', scene: 'lunar', startedAt: performance.now(), color: '#438fd2' };
-    setResourceNotice(`SAMPLE STORED · ${supplies.samplesAtLab}/3`);
+    setResourceNotice(`SAMPLE STORED · ${supplies.samplesAtLab}/${requiredSamples}`);
     updateSuppliesHud();
     return;
   }

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#102c30" />
+    <title>Lunar Days Out</title>
+  </head>
+  <body>
+    <main class="world" aria-label="Lunar landscape">
+      <canvas id="moon" tabindex="0" aria-label="Isometric lunar landscape. Move with WASD or arrow keys."></canvas>
+      <div class="game-ui controls" aria-hidden="true"><span class="key move-key">W</span><span class="key move-key">A</span><span class="key move-key">S</span><span class="key move-key">D</span><span class="control-label" id="control-hint-text">E use · G garden</span></div>
+      <div class="game-ui wordmark" aria-hidden="true"><span class="moon-mark">◒</span><span>LUNAR<br /><b>DAYS OUT</b></span></div>
+      <div class="game-ui mission-clock" aria-label="Mission clock">
+        <span class="clock-label">MISSION</span>
+        <strong id="mission-time">23 JAN 2012 · 00:00 UTC</strong>
+        <span class="clock-speed">1h = 5s</span>
+      </div>
+      <div class="game-ui storm-alert" id="storm-alert" hidden aria-live="assertive">
+        <span class="storm-alert-icon" aria-hidden="true">☀</span>
+        <span><strong id="storm-alert-title">SOLAR EVENT WARNING</strong><small id="storm-alert-countdown">MOVE TO THE SHELTER</small></span>
+      </div>
+      <div class="game-ui supplies-column">
+      <section class="resource-panel" aria-label="Astronaut supplies">
+        <p class="resource-title">SUPPLIES</p>
+        <div class="resource-row">
+          <span class="resource-icon" aria-hidden="true">⚡</span>
+          <div class="resource-content">
+            <div class="resource-label"><strong>POWER</strong><span id="base-power-value">55 / 100</span></div>
+            <div class="resource-track power-track"><div id="base-power-fill"></div></div>
+          </div>
+        </div>
+        <div class="resource-row">
+          <span class="resource-icon suit-icon" aria-hidden="true">▰</span>
+          <div class="resource-content">
+            <div class="resource-label"><strong>BATTERY</strong><span id="suit-energy-value">60%</span></div>
+            <div class="resource-track battery-track"><div id="suit-energy-fill"></div></div>
+          </div>
+        </div>
+        <div class="resource-row">
+          <span class="resource-icon life-icon" aria-hidden="true">O₂</span>
+          <div class="resource-content">
+            <div class="resource-label"><strong>AIR</strong><span id="life-support-value">70%</span></div>
+            <div class="resource-track air-track"><div id="life-support-fill"></div></div>
+          </div>
+        </div>
+        <div class="resource-row">
+          <span class="resource-icon stamina-icon" aria-hidden="true">♥</span>
+          <div class="resource-content">
+            <div class="resource-label"><strong>STAMINA</strong><span id="stamina-value">100%</span></div>
+            <div class="resource-track stamina-track"><div id="stamina-fill"></div></div>
+          </div>
+        </div>
+        <div class="resource-row meal-row">
+          <span class="resource-icon meal-icon" aria-hidden="true">●</span>
+          <div class="resource-content">
+            <div class="resource-label"><strong>FOOD PACK</strong><span id="meal-value">2 / 4</span></div>
+            <div class="meal-pips" id="meal-pips" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+        <div class="resource-row sample-row">
+          <span class="resource-icon sample-icon" aria-hidden="true">◆</span>
+          <div class="resource-content">
+            <div class="resource-label"><strong>SAMPLES</strong><span id="sample-value">0 / 3</span></div>
+            <div class="sample-pips" id="sample-pips" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span class="sample-note" id="sample-note">SCAN RED DOTS</span>
+          </div>
+        </div>
+        <div class="garden-status" aria-label="Greenhouse production">
+          <div class="resource-label"><strong>GARDEN</strong><span id="garden-state">GROWING</span></div>
+          <div class="resource-track garden-track"><div id="garden-progress-fill"></div></div>
+          <div class="garden-footer"><span id="garden-ready">0 READY · +1/4h · −1.5 PWR/h</span><button id="garden-toggle" type="button" aria-pressed="true">PAUSE</button></div>
+        </div>
+        <div class="research-points"><span>RESEARCH POINTS</span><strong id="research-value">0</strong></div>
+        <p class="resource-notice" id="resource-notice" aria-live="polite"></p>
+      </section>
+      <section class="radiation-panel" id="radiation-panel" hidden aria-label="Radiation risk">
+        <div class="radiation-heading"><span class="radiation-icon" aria-hidden="true">☀</span><strong>RADIATION RISK</strong></div>
+        <div class="radiation-value-row"><strong id="radiation-risk-value">0%</strong><span id="radiation-risk-status">GET TO SHELTER</span></div>
+        <div class="resource-track radiation-track"><div id="radiation-risk-fill"></div></div>
+      </section>
+      </div>
+      <div class="game-ui minimap" aria-label="Map: astronaut, lunar base buildings, sample sites, and storm shelter"><span class="map-title">BASE <i><u>●</u> SAMPLES <b>● SHELTER</b></i></span><canvas id="radar" width="224" height="132"></canvas></div>
+      <section class="game-ui mission-panel" aria-label="Mission objective and deadline">
+        <div class="mission-panel-top"><strong>MISSION</strong><span>TIME LEFT <b id="mission-time-left">5d 12h</b></span></div>
+        <strong class="mission-name">SAMPLE STUDY</strong>
+        <div class="mission-progress-row"><span>COLLECT 3</span><b id="mission-sample-count">0 / 3</b></div>
+        <div class="mission-track"><div id="mission-sample-fill"></div></div>
+        <div class="mission-events-row"><span>SOLAR EVENTS</span><b id="mission-event-count">0 / 2</b></div>
+        <div class="mission-status" id="mission-research-state">TAKE SAMPLES TO THE LAB</div>
+      </section>
+
+      <section class="title-screen" id="title-screen" aria-label="Lunar Days Out main menu">
+        <img class="title-art" src="/assets/lunar-days-out-cover.png" alt="A lunar base beneath a fiery solar storm, with Earth in the sky and an astronaut exploring." />
+        <h1 class="visually-hidden">Lunar Days Out</h1>
+        <button id="start-game" class="start-game" type="button">START GAME</button>
+      </section>
+
+      <section class="opening-sequence" id="opening-sequence" aria-label="Mission introduction" aria-live="polite" hidden>
+        <div class="opening-backdrop"></div>
+        <div class="opening-copy"><p>JANUARY 2012</p><h2>SOUTH POLE</h2><span>THE MOON</span></div>
+        <button id="skip-intro" type="button">SKIP INTRO <b aria-hidden="true">›</b></button>
+      </section>
+
+      <section class="mission-over" id="mission-over" aria-label="Mission over" aria-live="assertive" hidden>
+        <div class="mission-over-card">
+          <span class="mission-over-icon" aria-hidden="true">!</span>
+          <h2 id="mission-over-title">MISSION OVER</h2>
+          <p id="mission-over-message">Suit reserve empty.</p>
+          <button id="restart-game" type="button">TRY AGAIN</button>
+        </div>
+      </section>
+
+      <section class="console-panel sun-console" id="console-panel" hidden aria-label="Sun watch monitor">
+        <button class="close-console" id="close-console" type="button" aria-label="Close console">×</button>
+        <p class="eyebrow">CONTROL ROOM · NASA DONKI</p>
+        <h1>Sun watch</h1>
+        <div class="solar-visual" aria-hidden="true">
+          <span class="solar-disc">☀</span>
+          <span class="particle-lane"><i></i><i></i><i></i></span>
+          <span class="moon-disc">◒</span>
+        </div>
+        <div class="sun-state-row"><strong id="sun-state">LOADING NASA EVENT</strong><span id="sun-countdown">—</span></div>
+        <div class="sun-record"><span id="sun-event-time">Looking up the archive…</span><span id="sun-instrument"></span></div>
+        <div class="shelter-card">
+          <div class="shelter-card-heading"><strong>STORM SHELTER</strong><span id="shelter-shield-state">SOIL COVER</span></div>
+          <button id="reinforce-shelter" type="button">ADD SOIL · 18 POWER</button>
+          <div class="resource-track shield-track"><div id="shield-work-fill"></div></div>
+          <small id="shield-note">Uses power and pauses the garden.</small>
+        </div>
+        <button class="practice-button retry-data" id="retry-sun-data" type="button" hidden>RETRY NASA DATA</button>
+        <p class="console-hint">E closes this · Esc leaves the control room</p>
+      </section>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

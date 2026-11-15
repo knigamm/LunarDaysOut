@@ -8,7 +8,7 @@ A browser-playable lunar outpost game prototype. Explore the base, collect sampl
 - A free NASA API key for the DONKI solar-event display
 - A modern desktop browser
 
-## Set up and run
+## Set up and run locally
 
 1. Clone the repository and enter its folder:
 
@@ -58,7 +58,18 @@ The game requests archived Solar Energetic Particle (SEP) records from NASA's [D
 
 DONKI's event records are not radiation-dose readings for the Moon or for this outpost. The game groups nearby records into playable episodes; its warning lead time, event duration, exposure meter, and consequences are simulation rules for teaching trade-offs. They are not NASA forecasts or measured lunar radiation levels.
 
-The development server forwards requests through a local Vite server route so the NASA key stays out of browser code. This prototype is set up for local development. A static-only host such as GitHub Pages cannot run that server route; online deployment will need a server-side proxy that keeps the API key secret.
+The Vite development server forwards NASA requests through a local server route, so the key stays out of browser code.
+
+## Deploy on Railway
+
+The project includes a production server that serves the built game and proxies DONKI requests without sending the API key to the browser.
+
+1. Connect this GitHub repository to a Railway Node.js service.
+2. Set the service build command to `npm run build` and the start command to `npm start`.
+3. Add `NASA_API_KEY` as a Railway service variable using your own NASA API key. Do not put the key in GitHub or in frontend code.
+4. Expose the service on Railway's generated public domain.
+
+The `/health` route is available for a deployment health check. Static-only hosting such as GitHub Pages cannot run the DONKI proxy, so the live solar-event feature needs a server-side host such as Railway.
 
 ## Project
 
